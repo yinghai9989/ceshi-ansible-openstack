@@ -1,0 +1,6 @@
+---
+required_packages:
+  - memcached
+  - python-memcached
+required_services:
+  - memcached

@@ -1,0 +1,16 @@
+---
+- name: delete current repos
+  file: path=/etc/yum.repos.d/ state=absent
+  when: is_yum_server == "no"
+
+- name: create /etc/yum.repos.d/
+  file:
+    path: /etc/yum.repos.d/
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  when: is_yum_server == "no"
+
+- name: set repo
+  template: src=ceshi.repo.j2 dest=/etc/yum.repos.d/ceshi.repo

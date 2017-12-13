@@ -1,0 +1,37 @@
+control0	ansible_host=172.20.0.10
+control1	ansible_host=172.20.0.11
+compute1	ansible_host=172.20.0.21
+
+[yum_server]
+control1
+
+[ntp_server]
+control1
+
+[db]
+control1
+
+[mq]
+control1
+
+[mc]
+control1
+
+[control]
+control0
+control1
+
+[compute]
+compute1
+
+[pike:children]
+control
+compute
+
+[region:children]
+yum_server
+ntp_server
+db
+mq
+mc
+pike

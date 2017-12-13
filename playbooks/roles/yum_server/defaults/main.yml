@@ -1,0 +1,3 @@
+---
+yum_dir: /data/yum/local/
+yum_http_dir: /var/www/html/local/

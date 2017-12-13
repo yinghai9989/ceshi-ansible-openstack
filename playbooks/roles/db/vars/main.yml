@@ -1,0 +1,14 @@
+---
+required_packages:
+  - mariadb
+  - mariadb-server
+  - python2-PyMySQL
+required_services:
+  - mariadb
+required_openstack_db_names:
+  - glance
+  - nova_api
+  - nova_cell0
+  - nova_cell1
+  - neutron
+  - cinder

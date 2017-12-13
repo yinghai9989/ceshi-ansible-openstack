@@ -1,0 +1,11 @@
+---
+- name: install mq related packages
+  yum: name={{ item }} state=present update_cache=yes
+  with_items: "{{ required_packages }}"
+
+- name: start mq related services
+  service: name={{ item }} state=started enabled=yes
+  with_items: "{{ required_services }}"
+
+- name: config for openstack
+  import_tasks: config_openstack.yml

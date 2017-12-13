@@ -1,0 +1,5 @@
+---
+required_packages:
+  - chrony
+required_services:
+  - chronyd

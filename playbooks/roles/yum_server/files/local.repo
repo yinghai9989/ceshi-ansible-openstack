@@ -1,0 +1,5 @@
+[Local]
+name=Local Yum
+baseurl=file:///data/yum/local/
+gpgcheck=0
+enabled=1

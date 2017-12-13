@@ -1,0 +1,22 @@
+---
+- name: config chrony server
+  template:
+    src: chrony_server.conf.j2
+    dest: /etc/chrony.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: is_ntp_server == 'yes'
+  notify:
+    - restart chronyd
+
+- name: config chrony client
+  template:
+    src: chrony_client.conf.j2
+    dest: /etc/chrony.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: is_ntp_server == 'no'
+  notify:
+    - restart chronyd

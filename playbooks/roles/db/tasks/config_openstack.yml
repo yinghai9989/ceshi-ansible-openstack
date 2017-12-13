@@ -1,0 +1,10 @@
+---
+- name: create database
+  mysql_db:
+    name: {{ item }}
+    state: present
+    config_file: /etc/my.cnf
+    encoding: utf-8
+  with_items:
+    - "{{ required_openstack_db_names }}"
+- name: create user

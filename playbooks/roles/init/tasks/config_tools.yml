@@ -1,0 +1,28 @@
+---
+- name: config bash
+  blockinfile:
+    path: /root/.bashrc
+    marker: "# {mark} MANAGED BY ANSIBLE"
+    block: |
+      export LANG=en_US.UTF-8
+      export HISTFILESIZE=2000
+      export HISTSIZE=2000
+      export HISTTIMEFORMAT="%Y-%m-%d:%H-%M-%S: "
+
+      alias ta='tmux attach -t'
+      alias tad='tmux attach -d -t'
+      alias tn='tmux new-session -s'
+      alias tl='tmux list-sessions'
+      alias tksv='tmux kill-server'
+      alias tkss='tmux kill-session -t'
+      alias cl='clear'
+      alias la='ls -al'
+      alias ll='ls -l'
+  notify:
+    - source root bashrc
+
+- name: config vim
+  copy: src=vimrc dest=/root/.vimrc
+
+- name: config tmux
+  copy: src=tmux.conf dest=/root/.tmux.conf

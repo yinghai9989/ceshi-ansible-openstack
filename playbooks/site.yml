@@ -1,0 +1,13 @@
+---
+- hosts: all
+  roles:
+    - init
+    - ntp
+
+- hosts: mc
+  roles:
+    - mc
+
+- hosts: mq
+  roles:
+    - { role: mq, when: play_hosts|length == 1 }

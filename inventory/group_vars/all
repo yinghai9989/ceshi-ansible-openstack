@@ -1,0 +1,4 @@
+---
+yum_server: "{{ groups.yum_server[0] }}"
+is_ntp_server: "no"
+is_yum_server: "no"

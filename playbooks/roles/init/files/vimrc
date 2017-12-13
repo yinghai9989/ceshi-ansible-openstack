@@ -1,0 +1,10 @@
+syntax on
+set softtabstop=4
+set tabstop=4
+set expandtab
+set autoindent
+set backspace=2
+set ruler
+set showcmd
+set fileencodings=utf-8,bg18030,gbk,big5
+set hlsearch

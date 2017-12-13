@@ -1,0 +1,18 @@
+---
+- name: install mc related packages
+  yum: name={{ item }} state=present update_cache=yes
+  with_items: "{{ required_packages }}"
+
+- name: config memcached
+  template:
+    src: memcached.j2
+    dest: /etc/sysconfig/memcached
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart memcached
+
+- name: start mc related services
+  service: name={{ item }} state=started enabled=yes
+  with_items: "{{ required_services }}"

@@ -1,0 +1,37 @@
+#http://docs.ansible.com/ansible/latest/playbooks_variables.html#magic-variables-and-how-to-access-information-about-other-hosts
+
+所有 groups 并包含 group 中的 hosts
+{{ groups }}
+
+所有的 groups 的名字
+{{ group_names }}
+
+
+group pike 中的所有 hosts
+{{ groups['pike'] }}
+数量： {{ groups['pike']|length }}
+
+一个 group 中的 hosts 的指定变量
+
+{% for host in groups['pike'] %}
+{{ hostvars[host]['inventory_hostname'] }} is ntp server: {{ hostvars[host]['is_ntp_server'] }}
+{% endfor %}
+
+{% for host in groups['pike'] %}
+{{ hostvars[host]['inventory_hostname'] }} {{ hostvars[host]['ansible_host'] }}
+{% endfor %}
+
+
+当前运行的 play 中的 hosts
+{{ play_hosts }}
+
+{% if play_hosts|length == 1 %}
+如果一个 group 中的 hosts 总数为 1，则出现这句话。
+{% endif %}
+
+
+当前运行的 play 使用的 inventory 所在目录
+{{ inventory_dir }}
+
+当前运行的 play 使用的 inventory 的文件
+{{ inventory_file }}

@@ -1,0 +1,21 @@
+---
+- name: install db related packages
+  yum: name={{ item }} state=present update_cache=yes
+  with_items: "{{ required_packages }}"
+
+- name: config mariadb
+  template:
+    src: openstack.j2
+    dest: /etc/my.cnf.d/openstack.cnf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart mariadb
+
+- name: start db related services
+  service: name={{ item }} state=started enabled=yes
+  with_items: "{{ required_services }}"
+
+#TODO
+- name: init mariadb

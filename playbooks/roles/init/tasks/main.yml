@@ -1,0 +1,21 @@
+---
+- name: config repo
+  import_tasks: config_repos.yml
+
+- name: install packages
+  yum: name={{ item }} state=present update_cache=yes
+  with_items: "{{ required_packages }}"
+
+- name: tools personalization configuration
+  import_tasks: config_tools.yml
+
+- name: set hostname
+  hostname: name={{ ansible_hostname }}
+
+- name: config hosts
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644

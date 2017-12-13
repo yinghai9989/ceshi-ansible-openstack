@@ -1,0 +1,26 @@
+---
+# create yum server
+
+- name: download httpd and createrepo
+  yum: name={{ item }} state=present
+  with_items:
+    - httpd
+    - createrepo
+
+- name: create related directory
+  file: path={{ item }} state=directory
+  with_items:
+    - "{{ yum_dir }}"
+    - "{{ yum_http_dir }}"
+
+- name: init local yum repo
+  shell: createrepo {{ yum_dir }}
+
+- name: create soft link to httpd
+  file: src={{ yum_dir }} dest={{ yum_http_dir }} state=link
+
+- name: start service httpd for yum clients
+  service: name=httpd state=started enabled=yes
+
+- name: create local repo file
+  copy: src=local.repo dest=/etc/yum/repos.d/local.repo

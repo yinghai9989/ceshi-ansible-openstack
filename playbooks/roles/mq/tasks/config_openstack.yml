@@ -1,0 +1,20 @@
+# http://docs.ansible.com/ansible/latest/list_of_messaging_modules.html
+---
+- name: create vhosts
+  rabbitmq_vhost:
+    name: "{{item}}"
+    state: present
+  with_items: "{{ required_rabbitmq_vhosts }}"
+
+- name: create users
+  rabbitmq_user:
+    user: "{{ item[0] }}"
+    password: "{{ required_rabbitmq_user_password }}"
+    vhost: "{{ item[1] }}"
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+  with_nested:
+    - "{{ required_rabbitmq_users }}"
+    - "{{ required_rabbitmq_vhosts }}"

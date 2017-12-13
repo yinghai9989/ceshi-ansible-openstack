@@ -1,0 +1,11 @@
+---
+required_packages:
+  - rabbitmq-server
+required_services:
+  - rabbitmq-server
+required_rabbitmq_vhosts:
+  - /pike
+  - /pike_cell1
+required_rabbitmq_users:
+  - pike
+required_rabbitmq_user_password: "RABBIT_PASS"
