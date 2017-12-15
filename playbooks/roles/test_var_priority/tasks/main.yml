@@ -1,0 +1,4 @@
+---
+- name: test variable priority
+  debug:
+    msg: "variable lovation: {{ var_location }}"

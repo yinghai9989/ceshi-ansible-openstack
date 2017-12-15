@@ -2,3 +2,4 @@
 ansible_connection: local
 is_yum_server: "yes"
 is_ntp_server: "yes"
+var_location: "in host vars"

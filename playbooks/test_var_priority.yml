@@ -1,0 +1,7 @@
+---
+- hosts: control1
+  gather_facts: no
+  vars:
+    - var_location: "in play vars"
+  roles:
+    - { role: test_var_priority, var_location: "in role params" }
