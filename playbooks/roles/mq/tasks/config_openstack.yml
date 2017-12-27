@@ -1,12 +1,12 @@
 # http://docs.ansible.com/ansible/latest/list_of_messaging_modules.html
 ---
-- name: create vhosts
+- name: create rabbitmq vhosts for openstack
   rabbitmq_vhost:
     name: "{{item}}"
     state: present
   with_items: "{{ required_rabbitmq_vhosts }}"
 
-- name: create users
+- name: create rabbitmq users for openstack
   rabbitmq_user:
     user: "{{ item[0] }}"
     password: "{{ required_rabbitmq_user_password }}"

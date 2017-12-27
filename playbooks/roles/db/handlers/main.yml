@@ -1,3 +1,6 @@
 ---
 - name: restart mariadb
   service: name=mariadb state=restarted
+
+- name: delete mysql_secure_config
+  file: path=/tmp/mysql_secure_config state=absent

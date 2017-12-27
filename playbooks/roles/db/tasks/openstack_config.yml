@@ -1,0 +1,15 @@
+---
+- name: create openstack keystone related databases and users
+  import_tasks: openstack_keystone_config.yml
+
+- name: create openstack glance related databases and users
+  import_tasks: openstack_glance_config.yml
+
+- name: create openstack nova related databases and users
+  import_tasks: openstack_nova_config.yml
+
+- name: create openstack neutron related databases and users
+  import_tasks: openstack_neutron_config.yml
+
+- name: create openstack cinder related databases and users
+  import_tasks: openstack_cinder_config.yml

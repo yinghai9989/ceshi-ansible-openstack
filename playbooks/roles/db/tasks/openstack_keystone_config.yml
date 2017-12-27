@@ -1,0 +1,15 @@
+---
+- name: create database keystone
+  mysql_db:
+    encoding: utf8
+    name: "{{ keystone_db }}"
+    state: present
+
+- name: create user keystone for database keystone
+  mysql_user:
+    name: "{{ keystone_db_user }}"
+    password: "{{ keystone_db_user_passwd }}"
+    priv: "{{ keystone_db }}.*:ALL"
+    host: "{{ item }}"
+    state: present
+  with_items: ["localhost", "%"]

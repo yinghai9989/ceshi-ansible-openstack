@@ -3,12 +3,29 @@ required_packages:
   - mariadb
   - mariadb-server
   - python2-PyMySQL
+  - MySQL-python
 required_services:
   - mariadb
-required_openstack_db_names:
-  - glance
+
+keystone_db: keystone
+keystone_db_user: keystone
+keystone_db_user_passwd: KEYSTONE_DBPASS
+
+glance_db: glance
+glance_db_user: glance
+glance_db_user_passwd: GLANCE_DBPASS
+
+nova_dbs:
   - nova_api
   - nova_cell0
   - nova_cell1
-  - neutron
-  - cinder
+nova_db_user: nova
+nova_db_user_passwd: NOVA_DBPASS
+
+neutron_db: neutron
+neutron_db_user: neutron
+neutron_db_user_passwd: NEUTRON_DBPASS
+
+cinder_db: cinder
+cinder_db_user: cinder
+cinder_db_user_passwd: CINDER_DBPASS

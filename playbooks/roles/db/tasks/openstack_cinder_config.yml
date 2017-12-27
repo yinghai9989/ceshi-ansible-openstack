@@ -1,0 +1,15 @@
+---
+- name: create database cinder
+  mysql_db:
+    encoding: utf8
+    name: "{{ cinder_db }}"
+    state: present
+
+- name: create user cinder for database cinder
+  mysql_user:
+    name: "{{ cinder_db_user }}"
+    password: "{{ cinder_db_user_passwd }}"
+    priv: "{{ cinder_db }}.*:ALL"
+    host: "{{ item }}"
+    state: present
+  with_items: ["localhost", "%"]

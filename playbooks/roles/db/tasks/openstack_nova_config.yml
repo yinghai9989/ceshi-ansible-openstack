@@ -1,0 +1,18 @@
+---
+- name: create database nova
+  mysql_db:
+    encoding: utf8
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ nova_dbs }}"
+
+- name: create user nova for database nova
+  mysql_user:
+    name: "{{ nova_db_user }}"
+    password: "{{ nova_db_user_passwd }}"
+    priv: "{{ item[0] }}.*:ALL"
+    host: "{{ item[1] }}"
+    state: present
+  with_nested: 
+    - "{{ nova_dbs }}"
+    - ["localhost", "%"]

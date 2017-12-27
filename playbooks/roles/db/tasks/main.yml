@@ -17,5 +17,13 @@
   service: name={{ item }} state=started enabled=yes
   with_items: "{{ required_services }}"
 
-#TODO
-- name: init mariadb
+- name: copy file to config mysql secure
+  copy: src=mysql_secure_config dest=/tmp/mysql_secure_config
+
+- name: run script mysql_secure_installation
+  shell: mysql_secure_installation < /tmp/mysql_secure_config
+  notify:
+    - delete mysql_secure_config
+
+- name: create openstack related databases and users
+  import_tasks: openstack_config.yml

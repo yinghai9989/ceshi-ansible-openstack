@@ -11,3 +11,7 @@
 - hosts: mq
   roles:
     - { role: mq, when: play_hosts|length == 1 }
+
+- hosts: db
+  roles:
+    - db
