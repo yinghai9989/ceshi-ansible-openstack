@@ -1,2 +1,15 @@
+# {{ hostvars }}
+{{ hostvars }}
+
+# {{ hostvars[inventory_hostname] }}
+{{ hostvars[inventory_hostname] }}
+
+# {{ play_hosts }}
+{{ play_hosts }}
+
+# host: {{ hostvars[inventory_hostname]['inventory_hostname'] }}
 host: {{ hostvars[inventory_hostname]['inventory_hostname'] }}
+
+
+# ip: {{ hostvars[inventory_hostname]['ansible_host'] }}
 ip: {{ hostvars[inventory_hostname]['ansible_host'] }}

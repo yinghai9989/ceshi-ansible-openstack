@@ -1,11 +1,11 @@
 ---
-- hosts: pike
-  gather_facts: no
-  tasks:
-    - name: test ansible magic variables
-      template:
-        src: magic_variables.j2
-        dest: /tmp/test_ansible_magic_variables_result
+#- hosts: pike
+#  gather_facts: no
+#  tasks:
+#    - name: test ansible magic variables
+#      template:
+#        src: magic_variables.j2
+#        dest: /tmp/test_ansible_magic_variables_result
 
 - hosts: control1
   gather_facts: no

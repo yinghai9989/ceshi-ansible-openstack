@@ -21,6 +21,10 @@ group pike 中的所有 hosts
 {{ hostvars[host]['inventory_hostname'] }} {{ hostvars[host]['ansible_host'] }}
 {% endfor %}
 
+# for host in groups['pike']
+    hostvars[host]['inventoty_hostname']
+# endfor
+
 
 当前运行的 play 中的 hosts
 {{ play_hosts }}
