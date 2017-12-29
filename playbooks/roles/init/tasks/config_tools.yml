@@ -1,8 +1,8 @@
 ---
-- name: config bash
+- name: config /root/.bashrc
   blockinfile:
     path: /root/.bashrc
-    marker: "# {mark} MANAGED BY ANSIBLE"
+    marker: "# {mark} - MANAGED BY ANSIBLE"
     block: |
       export LANG=en_US.UTF-8
       export HISTFILESIZE=2000
