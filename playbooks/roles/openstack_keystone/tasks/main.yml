@@ -1,0 +1,62 @@
+---
+- name: install base packages for keystone
+  yum: name={{ item }} state=present update_cache=yes
+  with_items: "{{ base_packages }}"
+
+- name: install keystone related packages
+  yum: name={{ item }} state=present
+  with_items: "{{ keystone_packages }}"
+
+- name: config /etc/keystone/keystone.conf
+  template:
+    src: keystone.conf.j2
+    dest: /etc/keystone/keystone.conf
+    owner: root
+    group: keystone
+    mode: 0640
+
+- name: config /etc/keystone/keystone-paste.ini
+  copy:
+    src: keystone-paste.ini
+    dest: /etc/keystone/keystone-paste.ini
+    owner: root
+    group: keystone
+    mode: 0640
+
+- name: Populate the Identity service database
+  shell: keystone-manage --config-dir /etc/keystone db_sync
+
+- name: Initialize Fernet key repositories
+  shell: "{{ item }}"
+  with_items:
+    - "keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone"
+    - "keystone-manage credential_setup --keystone-user keystone --keystone-group keystone" 
+
+- name: Bootstrap the Identity service
+  shell:
+    cmd: |
+      keystone-manage --config-dir /etc/keystone bootstrap --bootstrap-password {{ admin_passwd }} \
+      --bootstrap-admin-url http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:35357/v3/ \
+      --bootstrap-internal-url http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:5000/v3/ \
+      --bootstrap-public-url http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:5000/v3/ \
+      --bootstrap-region-id {{ region_name }}
+
+- name: config /etc/httpd/conf/httpd.conf
+  template:
+    src: httpd.conf.j2
+    dest: /etc/httpd/conf/httpd.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Create a link to the /usr/share/keystone/wsgi-keystone.conf file
+  file:
+    src: /usr/share/keystone/wsgi-keystone.conf
+    dest: /etc/httpd/conf.d/wsgi-keystone.conf
+    state: link
+
+- name: enable and start service httpd
+  service: name=httpd state=started enabled=yes
+
+- name: keystone config for openstack
+  import_tasks: keystone_config.yml

@@ -1,0 +1,42 @@
+---
+- name: Add admin RC infos into /root/.bashrc
+  blockinfile:
+    path: /root/.bashrc
+    marker: "# {mark} - ADMIN RC INFO MANAGED BY ANSIBLE"
+    block: |
+      export OS_PROJECT_DOMAIN_NAME=default
+      export OS_USER_DOMAIN_NAME=default
+      export OS_PROJECT_NAME=admin
+      export OS_USERNAME=admin
+      export OS_PASSWORD={{ admin_passwd }}
+      export OS_AUTH_URL=http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:35357/v3
+      export OS_IDENTITY_API_VERSION=3
+      export OS_IMAGE_API_VERSION=2
+
+- name: source /root/.bashrc
+  shell: source /root/.bashrc
+
+- name: create demo project and demo user and user role
+  import_tasks: keystone_demo.yml
+
+- name: create service project
+  os_project:
+    name: service
+    description: Service Project
+    domain: default
+    region_name: "{{ region_name }}"
+    enabled: True
+    state: present
+    wait: yes
+
+- name: Create Image service credentials and endpoints in keystone
+  import_tasks: keystone_glance_config.yml
+
+- name: Create Compute service credentials and endpoints in keystone
+  import_tasks: keystone_nova_config.yml
+
+- name: Create Network service credentials and endpoints in keystone
+  import_tasks: keystone_neutron_config.yml
+
+- name: Create Block Storage service credentials and endpoints in keystone
+  import_tasks: keystone_cinder_config.yml

@@ -1,0 +1,76 @@
+---
+- name: Be sure service project is created
+  os_project:
+    name: service
+    description: Service Project
+    domain: default
+    region_name: "{{ region_name }}"
+    enabled: True
+    state: present
+    wait: yes
+
+- name: Create the glance user
+  os_user:
+    name: glance
+    password: GLANCE_PASS
+    domain: default
+    region_name: "{{ region_name }}"
+    enabled: True
+    state: present
+    wait: yes
+
+- name: Add the admin role to the glance user and service project
+  os_user_role:
+    user: glance
+    project: service
+    role: admin
+    region_name: "{{ region_name }}"
+    state: present
+    wait: yes
+
+- name: Create the glance service entity
+  os_keystone_service:
+    name: glance
+    service_type: image
+    description: OpenStack Image
+    region_name: "{{ region_name }}"
+    enabled: True
+    state: present
+
+- name: Create the Image service API endpoints
+  shell: "{{ item }}"
+  with_items:
+    - openstack endpoint create --region {{ region_name }} image public http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9292
+    - openstack endpoint create --region {{ region_name }} image internal http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9292
+    - openstack endpoint create --region {{ region_name }} image admin http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9292
+  when: ansible_version['full'] | version_compare('2.5', '<')
+
+# - name: Create the Image service API public endpoint
+#   os_keystone_endpoint:
+#     service: glance
+#     interfdace: public
+#     url: http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9292
+#     region: "{{ region_name }}"
+#     enabled: True
+#     state: present
+#   when: ansible_version['full'] | version_compare('2.5', '>=')
+
+# - name: Create the Image service API internal endpoint
+#   os_keystone_endpoint:
+#     service: glance
+#     interfdace: internal
+#     url: http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9292
+#     region: "{{ region_name }}"
+#     enabled: True
+#     state: present
+#   when: ansible_version['full'] | version_compare('2.5', '>=')
+
+# - name: Create the Image service API admin endpoint
+#   os_keystone_endpoint:
+#     service: glance
+#     interfdace: admin
+#     url: http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9292
+#     region: "{{ region_name }}"
+#     enabled: True
+#     state: present
+#   when: ansible_version['full'] | version_compare('2.5', '>=')
