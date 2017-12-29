@@ -35,6 +35,9 @@
 - name: Create Compute service credentials and endpoints in keystone
   import_tasks: keystone_nova_config.yml
 
+- name: Create Placement service credentials and endpoints in keystone
+  import_tasks: keystone_placement_config.yml
+
 - name: Create Network service credentials and endpoints in keystone
   import_tasks: keystone_neutron_config.yml
 
