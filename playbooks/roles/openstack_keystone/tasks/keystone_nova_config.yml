@@ -40,6 +40,7 @@
 - name: Create the Compute API service endpoints
   shell: "{{ item }}"
   with_items:
+    - openstack endpoint list --service nova --column ID --format value | while read id; do openstack endpoint delete ${id}; done
     - openstack endpoint create --region {{ region_name }} compute public http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:8774/v2.1
     - openstack endpoint create --region {{ region_name }} compute internal http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:8774/v2.1
     - openstack endpoint create --region {{ region_name }} compute admin http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:8774/v2.1

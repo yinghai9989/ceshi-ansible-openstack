@@ -40,6 +40,7 @@
 - name: Create the Image service API endpoints
   shell: "{{ item }}"
   with_items:
+    - openstack endpoint list --service glance --column ID --format value | while read id; do openstack endpoint delete ${id}; done
     - openstack endpoint create --region {{ region_name }} image public http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9292
     - openstack endpoint create --region {{ region_name }} image internal http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9292
     - openstack endpoint create --region {{ region_name }} image admin http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9292

@@ -40,6 +40,7 @@
 - name: Create the Networking service API endpoints
   shell: "{{ item }}"
   with_items:
+    - openstack endpoint list --service neutron --column ID --format value | while read id; do openstack endpoint delete ${id}; done
     - openstack endpoint create --region {{ region_name }} network public http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9696
     - openstack endpoint create --region {{ region_name }} network internal http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9696
     - openstack endpoint create --region {{ region_name }} network admin http://{{ hostvars[inventory_hostname]['inventory_hostname'] }}:9696
