@@ -1,0 +1,36 @@
+---
+- name: create demo project
+  os_project:
+    name: demo
+    description: Demo Project
+    domain: default
+    region_name: "{{ region_name }}"
+    enabled: True
+    state: present
+    wait: yes
+
+- name: create demo user
+  os_user:
+    name: demo
+    password: DEMO_PASS
+    domain: default
+    region_name: "{{ region_name }}"
+    enabled: True
+    state: present
+    wait: yes
+
+- name: create user role
+  os_keystone_role:
+    name: user
+    region_name: "{{ region_name }}"
+    state: present
+    wait: yes
+
+- name: Add the user role to the demo project and demo user
+  os_user_role:
+    user: demo
+    project: demo
+    role: user
+    region_name: "{{ region_name }}"
+    state: present
+    wait: yes

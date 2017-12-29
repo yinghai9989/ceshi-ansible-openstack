@@ -1,0 +1,25 @@
+---
+base_packages:
+  - python-openstackclient
+  - openstack-selinux
+  - MySQL-python
+  - apr
+  - apr-util
+  - mailcap
+  - python-shade
+  - python-httplib2
+  - python-jmespath
+
+keystone_packages:
+  - openstack-keystone
+  - httpd
+  - mod_wsgi
+
+db_host: "{{ groups['db'][0] }}"
+keystone_db: keystone
+keystone_db_user: keystone
+keystone_db_user_passwd: KEYSTONE_DBPASS
+
+admin_passwd: ADMIN_PASS
+
+region_name: RegionOne

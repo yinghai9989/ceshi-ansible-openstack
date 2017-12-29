@@ -15,3 +15,7 @@
 - hosts: db
   roles:
     - db
+
+- hosts: control0
+  roles:
+    - openstack_keystone
