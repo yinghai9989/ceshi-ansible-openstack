@@ -11,6 +11,7 @@
     name: "{{ nova_db_user }}"
     password: "{{ nova_db_user_passwd }}"
     priv: "{{ item[0] }}.*:ALL"
+    append_privs: yes
     host: "{{ item[1] }}"
     state: present
   with_nested: 

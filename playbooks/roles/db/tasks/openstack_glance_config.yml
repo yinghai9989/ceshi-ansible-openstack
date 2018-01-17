@@ -10,6 +10,7 @@
     name: "{{ glance_db_user }}"
     password: "{{ glance_db_user_passwd }}"
     priv: "{{ glance_db }}.*:ALL"
+    append_privs: yes
     host: "{{ item }}"
     state: present
   with_items: ["localhost", "%"]

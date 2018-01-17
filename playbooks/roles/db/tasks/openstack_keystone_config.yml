@@ -10,6 +10,7 @@
     name: "{{ keystone_db_user }}"
     password: "{{ keystone_db_user_passwd }}"
     priv: "{{ keystone_db }}.*:ALL"
+    append_privs: yes
     host: "{{ item }}"
     state: present
   with_items: ["localhost", "%"]

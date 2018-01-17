@@ -10,6 +10,7 @@
     name: "{{ neutron_db_user }}"
     password: "{{ neutron_db_user_passwd }}"
     priv: "{{ neutron_db }}.*:ALL"
+    append_privs: yes
     host: "{{ item }}"
     state: present
   with_items: ["localhost", "%"]
