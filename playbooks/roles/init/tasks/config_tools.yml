@@ -15,9 +15,10 @@
       alias tl='tmux list-sessions'
       alias tksv='tmux kill-server'
       alias tkss='tmux kill-session -t'
-      alias cl='clear'
+      alias c='clear'
       alias la='ls -al'
       alias ll='ls -l'
+      alias ..='cd ..'
   notify:
     - source root bashrc
 
