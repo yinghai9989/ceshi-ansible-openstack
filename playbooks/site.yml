@@ -1,21 +1,8 @@
 ---
-- hosts: all
-  roles:
-    - init
-    - ntp
-
-- hosts: mc
-  roles:
-    - mc
-
-- hosts: mq
-  roles:
-    - { role: mq, when: play_hosts|length == 1 }
-
-- hosts: db
-  roles:
-    - db
-
-- hosts: control0
-  roles:
-    - openstack_keystone
+- import_playbook: system_init.yml
+- import_playbook: mc_install.yml
+- import_playbook: mq_install.yml
+- import_playbook: db_install.yml
+- import_playbook: openstack_keystone_install.yml
+- import_playbook: openstack_glance_install.yml
+- import_playbook: openstack_nova_install.yml

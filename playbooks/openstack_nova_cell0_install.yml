@@ -1,0 +1,4 @@
+---
+- hosts: control0
+  roles:
+    - openstack_nova_cell0

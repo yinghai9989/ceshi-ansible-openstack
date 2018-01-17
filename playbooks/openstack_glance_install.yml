@@ -1,0 +1,4 @@
+---
+- hosts: control0
+  roles:
+    - { role: openstack_glance, tags: ['file_store'] }
