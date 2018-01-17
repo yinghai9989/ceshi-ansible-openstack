@@ -1,0 +1,50 @@
+---
+- name: Install base packages for glance
+  yum: name={{ item }} state=present update_cache=yes
+  with_items: "{{ base_packages }}"
+  tags: always
+
+- name: Install glance related packages
+  yum: name={{ item }} state=present
+  with_items: "{{ glance_packages }}"
+  tags: always
+
+- name: Config /etc/glance/glance-api.conf
+  template: 
+    src: glance-api.conf-file-store.j2
+    dest: /etc/glance/glance-api.conf
+    owner: root
+    group: glance
+    mode: 0640
+  tags: file_store
+
+- name: Make sure glance images store dir is exist
+  file:
+    path: /var/lib/glance/images
+    state: directory
+    owner: glance
+    group: glance
+    mode: 0740
+  tags: file_store
+
+- name: Config /etc/glance/glance-registry.conf
+  template:
+    src: glance-registry.conf.j2
+    dest: /etc/glance/glance-registry.conf
+    owner: root
+    group: glance
+    mode: 0640
+  tags: always
+
+# - import_tasks: keystone_config.yml
+# - import_tasks: db_config.yml
+
+- name: Populate the Image service database
+  shell: glance-manage --config-dir /etc/glance db_sync
+  tags: always
+
+- name: Start and enable the Image services
+  service:
+    name={{ item }} state=restarted enabled=yes
+  with_items: "{{ glance_services }}"
+  tags: always

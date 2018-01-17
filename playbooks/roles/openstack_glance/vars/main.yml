@@ -1,0 +1,22 @@
+---
+base_packages:
+  - python-openstackclient
+  - openstack-selinux
+  - MySQL-python
+
+glance_packages:
+  - openstack-glance
+
+glance_services:
+  - openstack-glance-api.service
+  - openstack-glance-registry.service
+
+db_host: "{{ groups['db'][0] }}"
+glance_db: glance
+glance_db_user: glance
+glance_db_user_passwd: GLANCE_DBPASS
+
+region_name: RegionOne
+keystone_host: control0
+keystone_glance_user: glance
+keystone_glance_passwd: GLANCE_PASS

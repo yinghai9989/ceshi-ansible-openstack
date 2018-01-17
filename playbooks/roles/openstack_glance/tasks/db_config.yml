@@ -1,0 +1,18 @@
+---
+- name: create databases and user for glance in db
+  block:
+    - name: create database glance
+      mysql_db:
+        encoding: utf8
+        name: "{{ glance_db }}"
+        state: present
+    
+    - name: create user glance for database glance
+      mysql_user:
+        name: "{{ glance_db_user }}"
+        password: "{{ glance_db_user_passwd }}"
+        priv: "{{ glance_db }}.*:ALL"
+        host: "{{ item }}"
+        state: present
+      with_items: ["localhost", "%"]
+  delegate_to: "{{ db_host }}"
