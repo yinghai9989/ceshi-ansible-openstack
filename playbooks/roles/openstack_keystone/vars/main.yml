@@ -21,5 +21,16 @@ keystone_db_user: keystone
 keystone_db_user_passwd: KEYSTONE_DBPASS
 
 admin_passwd: ADMIN_PASS
-
 region_name: RegionOne
+
+glance_keystone_user: glance
+glance_keystone_passwd: GLANCE_PASS
+
+nova_keystone_user: nova
+nova_keystone_passwd: NOVA_PASS
+
+neutron_keystone_user: neutron
+neutron_keystone_passwd: NEUTRON_PASS
+
+cinder_keystone_user: cinder
+cinder_keystone_passwd: CINDER_PASS
