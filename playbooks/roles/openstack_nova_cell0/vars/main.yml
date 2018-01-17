@@ -1,0 +1,42 @@
+---
+base_packages:
+  - python-openstackclient
+  - openstack-selinux
+  - MySQL-python
+
+nova_packages:
+  - openstack-nova-api
+  - openstack-nova-conductor
+  - openstack-nova-console
+  - openstack-nova-novncproxy
+  - openstack-nova-scheduler
+  - openstack-nova-placement-api
+
+nova_services:
+  - openstack-nova-api.service
+  - openstack-nova-consoleauth.service
+  - openstack-nova-scheduler.service
+  - openstack-nova-conductor.service
+  - openstack-nova-novncproxy.service
+
+# db related
+db_nova_user: nova
+db_nova_passwd: NOVA_DBPASS
+db_nova_api: nova_api
+db_nova_cell: nova_cell0
+db_novas:
+  - "{{ db_nova_api }}"
+  - "{{ db_nova_cell }}"
+
+# rabbitmq related
+rabbitmq_nova_user: openstack
+rabbitmq_nova_passwd: RABBIT_PASS
+rabbitmq_nova_vhost: /
+
+# keystone related
+keystone_nova_user: nova
+keystone_nova_passwd: NOVA_PASS
+
+# placement related
+keystone_placement_user: placement
+keystone_placement_passwd: PLACEMENT_PASS

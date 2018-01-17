@@ -1,0 +1,18 @@
+---
+- name: Config rabbitmq related to nova
+  block:
+    - name: Be sure rabbitmq vhosts are created wich related to nova
+      rabbitmq_vhost:
+        name: "{{ rabbitmq_nova_vhost }}"
+        state: present
+    
+    - name: Be sure rabbitmq user is created which related to nova
+      rabbitmq_user:
+        user: "{{ rabbitmq_nova_user }}"
+        password: "{{ rabbitmq_nova_passwd }}"
+        vhost: "{{ rabbitmq_nova_vhost }}"
+        configure_priv: .*
+        read_priv: .*
+        write_priv: .*
+        state: present
+  delegate_to: "{{ rabbitmq_host }}"

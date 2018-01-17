@@ -1,0 +1,22 @@
+---
+- name: Config db related to nova
+  block:
+    - name: Be sure mariadb databases are created which related to nova
+      mysql_db:
+        encoding: utf8
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ db_novas }}"
+
+    - name: Be sure mariadb user is created which related to nova
+      mysql_user:
+        name: "{{ db_nova_user }}"
+        password: "{{ db_nova_passwd }}"
+        priv: "{{ item[0] }}.*:ALL"
+        append_privs: yes
+        host: "{{ item[1] }}"
+        state: present
+      with_nested: 
+        - "{{ db_novas }}"
+        - ["localhost", "%"]
+  delegate_to: "{{ db_host }}"

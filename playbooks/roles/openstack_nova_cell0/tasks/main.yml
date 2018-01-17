@@ -1,0 +1,44 @@
+---
+- import_tasks: db_nova.yml
+- import_tasks: rabbitmq_nova.yml
+
+- name: Install base packages for nova
+  yum: name={{ item }} state=present update_cache=yes
+  with_items: "{{ base_packages }}"
+
+- name: Install nova related packages
+  yum: name={{ item }} state=present
+  with_items: "{{ nova_packages }}"
+
+- name: Config /etc/nova/nova.conf
+  template:
+    src: nova.conf.j2
+    dest: /etc/nova/nova.conf
+    owner: root
+    group: nova
+    mode: 0640
+  notify:
+    - Restart nova services
+
+- name: Config /etc/httpd/conf.d/00-nova-placement-api.conf
+  copy:
+    src: 00-nova-placement-api.conf
+    dest: /etc/httpd/conf.d/00-nova-placement-api.conf
+    owner: root
+    group: root
+    mode: 0640
+  notify:
+    - Restart service httpd
+
+- name: Sync api_db
+  shell: nova-manage api_db sync
+
+- name: Register the cell0 database
+  shell: nova-manage cell_v2 map_cell0 --database_connection mysql+pymysql://{{ db_nova_user }}:{{ db_nova_passwd }}@{{ db_host }}/{{ db_nova_cell0 }}
+
+- name: Populate the nova database
+  shell: nova-manage db sync
+
+- name: Be sure Compute services are started and enabled
+  service: name={{ item }} state=started enabled=yes
+  with_items: "{{ nova_services }}"

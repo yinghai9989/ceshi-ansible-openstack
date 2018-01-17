@@ -2,3 +2,7 @@
 yum_server: "{{ groups.yum_server[0] }}"
 is_ntp_server: "no"
 is_yum_server: "no"
+db_host: "{{ groups['db'][0] }}"
+rabbitmq_host: control1
+region_name: RegionOne
+keystone_host: control0
