@@ -6,6 +6,3 @@
 - name: start mq related services
   service: name={{ item }} state=started enabled=yes
   with_items: "{{ required_services }}"
-
-- name: config mq for openstack
-  import_tasks: openstack_config.yml
